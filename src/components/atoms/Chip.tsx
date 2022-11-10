@@ -1,17 +1,28 @@
-import React, { useState } from 'react'
+import React, { memo, useCallback, useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
-const Chip = ({text}: { text: string}) => {
-  const [name, setName] = useState('')
-
-  const changeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
-  return (
-    <div style={{ outline: '1px solid black'}}>
-      <span>{ text }</span>
-      <button>x</button>
-    </div>
-  )
+export interface Item {
+  id: number;
+  text: string;
 }
 
-export default Chip
+const Chip = ({ id, text, index }: { id: string; text: string; index: number }) => {
+  return (
+    <Draggable draggableId={ id } index={ index }>
+      { (provided) => (
+        <div
+          style={ { outline: '1px solid black' } }
+          { ...provided.draggableProps }
+          { ...provided.dragHandleProps }
+          ref={ provided.innerRef }
+        >
+          {/*<span>{ text }</span>*/ }
+          {/*<button>x</button>*/ }
+          { text }
+        </div>
+      ) }
+    </Draggable>
+  );
+};
+
+export default Chip;
